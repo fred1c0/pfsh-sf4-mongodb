@@ -12,32 +12,8 @@ mapPlatformShDocumentStoreEnvironment();
  */
 function mapPlatformShDocumentStoreEnvironment() : void
 {
+    // Previously declared in /app/vendor/platformsh/symfonyflex-bridge/platformsh-flex-env.php:47
     setEnvVar('MONGODB_URL', mapPlatformShDocumentStoreConfig());
-}
-
-/**
- * Sets an environment variable in all the myriad places PHP can store it.
- *
- * @param string $name
- *   The name of the variable to set.
- * @param null|string $value
- *   The value to set.  Null to unset it.
- */
-function setEnvVar(string $name, ?string $value) : void
-{
-    if (!putenv("$name=$value")) {
-        throw new \RuntimeException('Failed to create environment variable: ' . $name);
-    }
-    $order = ini_get('variables_order');
-    if (stripos($order, 'e') !== false) {
-        $_ENV[$name] = $value;
-    }
-    if (stripos($order, 's') !== false) {
-        if (strpos($name, 'HTTP_') !== false) {
-            throw new \RuntimeException('Refusing to add ambiguous environment variable ' . $name . ' to $_SERVER');
-        }
-        $_SERVER[$name] = $value;
-    }
 }
 
 function mapPlatformShDocumentStoreConfig() : string
