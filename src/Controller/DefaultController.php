@@ -32,10 +32,19 @@ class DefaultController extends Controller
     public function insert()
     {
         if (key_exists('MONGODB_URL', $_ENV)) {
-            $client = new \MongoDB\Client($_ENV['MONGODB_URL']);
-            $collection = $client->main->starwars;
-            $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi' ] );
-            return new Response("Inserted with Object ID '{$result->getInsertedId()}'");
+            /** @var DocumentManager $dm */
+            $dm = $this->get('doctrine_mongodb')->getManager();
+            $luke = new Starwars();
+            $luke->setName("Luke");
+            $luke->setOccupation("Jedi Knight");
+            $dm->persist($luke);
+            $dm->flush();
+
+//            $client = new Client($_ENV['MONGODB_URL']);
+//            $collection = $client->main->starwars;
+//            $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi Knight' ] );
+
+            return new Response("Inserted with Object ID '{$luke->getId()}'");
         } else {
             return new Response("Environment variable MONGODB_URL not found.", 404);
         }
