@@ -2,6 +2,6 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
-vars:
-    path: /vars
-    controller: App\Controller\DefaultController::vars
+url:
+    path: /url
+    controller: App\Controller\DefaultController::url

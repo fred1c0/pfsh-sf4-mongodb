@@ -58,8 +58,9 @@ class DefaultController
         echo "Inserted with Object ID '{$result->getInsertedId()}'";
     }
 
-    public function vars()
+    public function url()
     {
-        phpinfo();
+        $mongoDbUrl = $_ENV['MONGODB_URL'];
+        return new Response('MONGODB_URL: ' . $mongoDbUrl);
     }
 }
