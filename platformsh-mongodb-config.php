@@ -17,10 +17,11 @@ function mapPlatformShDocumentStoreEnvironment() : void
     }
 
     // Previously declared in /app/vendor/platformsh/symfonyflex-bridge/platformsh-flex-env.php:47
-    setEnvVar('MONGODB_URL', mapPlatformShDocumentStoreConfig());
+    setEnvVar('MONGODB_URL', mapPlatformShDocumentStoreUrl());
+    setEnvVar('MONGODB_DB', mapPlatformShDocumentStoreDbName());
 }
 
-function mapPlatformShDocumentStoreConfig() : string
+function mapPlatformShDocumentStoreUrl() : string
 {
     $mongoRelationshipName = 'documentstore';
 
@@ -32,13 +33,12 @@ function mapPlatformShDocumentStoreConfig() : string
                 break;
             }
 
-            $mongoDbUrl = sprintf('%s://%s:%s@%s:%d/%s',
+            $mongoDbUrl = sprintf('%s://%s:%s@%s:%d',
                 $settings['scheme'],
                 $settings['username'],
                 $settings['password'],
                 $settings['host'],
-                $settings['port'],
-                $settings['path']
+                $settings['port']
             );
 
             return $mongoDbUrl;
@@ -46,4 +46,25 @@ function mapPlatformShDocumentStoreConfig() : string
     }
 
     return 'EMPTY_MONGODB_URL';
+}
+
+function mapPlatformShDocumentStoreDbName() : string
+{
+    $mongoRelationshipName = 'documentstore';
+
+    if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
+        $relationships = json_decode(base64_decode($relationships), TRUE);
+        if (!empty($relationships[$mongoRelationshipName])) {
+            foreach ($relationships[$mongoRelationshipName] as $endpoint) {
+                $settings = $endpoint;
+                break;
+            }
+
+            $mongoDbName = $settings['path'];
+
+            return $mongoDbName;
+        }
+    }
+
+    return 'EMPTY_MONGODB_DB';
 }
