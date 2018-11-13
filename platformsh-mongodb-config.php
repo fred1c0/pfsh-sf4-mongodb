@@ -44,4 +44,6 @@ function mapPlatformShDocumentStoreConfig() : string
             return $mongoDbUrl;
         }
     }
+
+    return 'EMPTY_MONGODB_URL';
 }
