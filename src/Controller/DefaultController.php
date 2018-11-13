@@ -8,59 +8,26 @@ class DefaultController
 {
     public function index()
     {
-        if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
-            $relationships = json_decode(base64_decode($relationships), TRUE);
+        $message = null;
 
-//   "documentstore" : [
-//       {
-//          "username" : "main",
-//          "query" : {
-//              "is_master" : true
-//          },
-//          "service" : "mydocumentstore",
-//          "ip" : "169.254.167.100",
-//          "cluster" : "6qopsqmoqigp4-master-7rqtwti",
-//          "rel" : "mongodb",
-//          "host" : "documentstore.internal",
-//          "port" : 27017,
-//          "hostname" : "oxwt2t4s4hj26qyzvv5blkluji.mydocumentstore.service._.eu-2.platformsh.site",
-//          "path" : "main",
-//          "scheme" : "mongodb",
-//          "password" : "main"
-//      }
-//   ]
+        if (key_exists('MONGODB_URL', $_ENV)) {
+            $mongoDbUrl = $_ENV['MONGODB_URL'];
 
-            // For a relationship named 'documentstore' referring to one endpoint.
-            if (!empty($relationships['documentstore'])) {
-                foreach ($relationships['documentstore'] as $endpoint) {
-                    $settings = $endpoint;
-                    break;
-                }
-            }
+            $client = new \MongoDB\Client($mongoDbUrl);
+
+            $collection = $client->main->starwars;
+            $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi' ] );
+
+            $message = "Inserted with Object ID '{$result->getInsertedId()}'";
         }
 
-        $server = sprintf('%s://%s:%s@%s:%d/%s',
-            $settings['scheme'],
-            $settings['username'],
-            $settings['password'],
-            $settings['host'],
-            $settings['port'],
-            $settings['path']
-        );
-
-        echo "Connection: '{$server}'";
-
-        $client = new \MongoDB\Client($server);
-
-        $collection = $client->main->starwars;
-        $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi' ] );
-
-        echo "Inserted with Object ID '{$result->getInsertedId()}'";
+        return new Response($message);
     }
 
-    public function url()
+    public function config()
     {
         $mongoDbUrl = $_ENV['MONGODB_URL'];
+
         return new Response('MONGODB_URL: ' . $mongoDbUrl);
     }
 }
