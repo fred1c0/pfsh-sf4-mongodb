@@ -33,12 +33,13 @@ function mapPlatformShDocumentStoreUrl() : string
                 break;
             }
 
-            $mongoDbUrl = sprintf('%s://%s:%s@%s:%d',
+            $mongoDbUrl = sprintf('%s://%s:%s@%s:%d/%s',
                 $settings['scheme'],
                 $settings['username'],
                 $settings['password'],
                 $settings['host'],
-                $settings['port']
+                $settings['port'],
+                $settings['path']
             );
 
             return $mongoDbUrl;
