@@ -2,14 +2,20 @@
 
 namespace App\Controller;
 
+use Doctrine\ODM\MongoDB\Configuration;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\HttpFoundation\Response;
+use MongoDB\Client;
 
 class DefaultController
 {
     public function index()
     {
         if (key_exists('MONGODB_URL', $_ENV)) {
-            $client = new \MongoDB\Client($_ENV['MONGODB_URL']);
+            $client = new Client($_ENV['MONGODB_URL'], [], ['typeMap' => DocumentManager::CLIENT_TYPEMAP]);
+            $config = new Configuration();
+            $dm = DocumentManager::create($client, $config);
+
             $collection = $client->main->starwars;
             $result = $collection->count();
             return new Response("Number of objects in collection 'starwars': {$result}");
