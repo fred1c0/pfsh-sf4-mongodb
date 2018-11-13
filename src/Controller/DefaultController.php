@@ -12,7 +12,7 @@ class DefaultController
             $client = new \MongoDB\Client($_ENV['MONGODB_URL']);
             $collection = $client->main->starwars;
             $result = $collection->count();
-            return new Response("All objects in 'starwars': {$result}");
+            return new Response("Number of objects in collection 'starwars': {$result}");
         } else {
             return new Response("Environment variable MONGODB_URL not found.", 404);
         }
