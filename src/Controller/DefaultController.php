@@ -19,7 +19,7 @@ class DefaultController extends Controller
             $starwars = $repo->findAll();
             $result = count($starwars);
 
-//            $client = new Client($_ENV['MONGODB_URL']);
+//            $client = new Client($_ENV['MONGODB_URL'] . '/' . $_ENV['MONGODB_DB']);
 //            $collection = $client->main->starwars;
 //            $result = $collection->count();
 
