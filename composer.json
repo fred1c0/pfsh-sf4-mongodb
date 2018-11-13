@@ -24,7 +24,7 @@
         "sort-packages": true
     },
     "autoload": {
-        "files": ["platformsh-mongodb-config.php"],
+        "files": [],
         "psr-4": {
             "App\\": "src/"
         }
@@ -44,6 +44,7 @@
     },
     "scripts": {
         "auto-scripts": [
+            "platformsh-mongodb-config.php"
         ],
         "post-install-cmd": [
             "@auto-scripts"
