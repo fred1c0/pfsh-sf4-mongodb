@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use MongoDB\Client;
 
-class DefaultController
+class DefaultController extends Controller
 {
     public function index()
     {
