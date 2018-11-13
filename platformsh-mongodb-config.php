@@ -12,6 +12,10 @@ mapPlatformShDocumentStoreEnvironment();
  */
 function mapPlatformShDocumentStoreEnvironment() : void
 {
+    if (!getenv('PLATFORM_APPLICATION')) {
+        return;
+    }
+
     // Previously declared in /app/vendor/platformsh/symfonyflex-bridge/platformsh-flex-env.php:47
     setEnvVar('MONGODB_URL', mapPlatformShDocumentStoreConfig());
 }
