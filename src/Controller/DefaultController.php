@@ -48,10 +48,13 @@ class DefaultController
             $settings['path']
         );
 
+        echo "Connection: '{$server}'";
+
         $client = new \MongoDB\Client($server);
 
-        return new Response(
-            '<html><body>Test MongoDB connection... Connection: ' . $server . '</body></html>'
-        );
+        $collection = $client->main->starwars;
+        $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi' ] );
+
+        echo "Inserted with Object ID '{$result->getInsertedId()}'";
     }
 }
