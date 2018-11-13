@@ -31,17 +31,17 @@ function mapPlatformShDocumentStoreConfig() : string
                 $settings = $endpoint;
                 break;
             }
+
+            $mongoDbUrl = sprintf('%s://%s:%s@%s:%d/%s',
+                $settings['scheme'],
+                $settings['username'],
+                $settings['password'],
+                $settings['host'],
+                $settings['port'],
+                $settings['path']
+            );
+
+            return $mongoDbUrl;
         }
     }
-
-    $mongoDbUrl = sprintf('%s://%s:%s@%s:%d/%s',
-        $settings['scheme'],
-        $settings['username'],
-        $settings['password'],
-        $settings['host'],
-        $settings['port'],
-        $settings['path']
-    );
-
-    return $mongoDbUrl;
 }
