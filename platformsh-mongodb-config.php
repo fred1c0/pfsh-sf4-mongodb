@@ -18,19 +18,19 @@ function mapPlatformShDocumentStoreEnvironment() : void
 
 function mapPlatformShDocumentStoreConfig() : string
 {
-    $dbRelationshipName = 'documentstore';
+    $mongoRelationshipName = 'documentstore';
 
-    if (getenv('PLATFORM_RELATIONSHIPS')) {
-        $relationships = json_decode(base64_decode(getenv('PLATFORM_RELATIONSHIPS'), true), true);
-        if (isset($relationships[$dbRelationshipName])) {
-            foreach ($relationships[$dbRelationshipName] as $endpoint) {
+    if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
+        $relationships = json_decode(base64_decode($relationships), TRUE);
+        if (!empty($relationships[$mongoRelationshipName])) {
+            foreach ($relationships[$mongoRelationshipName] as $endpoint) {
                 $settings = $endpoint;
                 break;
             }
         }
     }
 
-    $dbUrl = $server = sprintf('%s://%s:%s@%s:%d/%s',
+    $mongoDbUrl = sprintf('%s://%s:%s@%s:%d/%s',
         $settings['scheme'],
         $settings['username'],
         $settings['password'],
@@ -39,5 +39,5 @@ function mapPlatformShDocumentStoreConfig() : string
         $settings['path']
     );
 
-    return $dbUrl;
+    return $mongoDbUrl;
 }
