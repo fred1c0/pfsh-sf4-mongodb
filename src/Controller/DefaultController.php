@@ -57,4 +57,9 @@ class DefaultController
 
         echo "Inserted with Object ID '{$result->getInsertedId()}'";
     }
+
+    public function vars()
+    {
+        phpinfo();
+    }
 }
