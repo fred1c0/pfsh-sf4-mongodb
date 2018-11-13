@@ -8,26 +8,34 @@ class DefaultController
 {
     public function index()
     {
-        $message = null;
-
         if (key_exists('MONGODB_URL', $_ENV)) {
-            $mongoDbUrl = $_ENV['MONGODB_URL'];
+            $client = new \MongoDB\Client($_ENV['MONGODB_URL']);
+            $collection = $client->main->starwars;
+            $result = $collection->count();
+            return new Response("All objects in 'starwars': {$result}");
+        } else {
+            return new Response("Environment variable MONGODB_URL not found.", 404);
+        }
+    }
 
-            $client = new \MongoDB\Client($mongoDbUrl);
-
+    public function insert()
+    {
+        if (key_exists('MONGODB_URL', $_ENV)) {
+            $client = new \MongoDB\Client($_ENV['MONGODB_URL']);
             $collection = $client->main->starwars;
             $result = $collection->insertOne( [ 'name' => 'Luke', 'occupation' => 'Jedi' ] );
-
-            $message = "Inserted with Object ID '{$result->getInsertedId()}'";
+            return new Response("Inserted with Object ID '{$result->getInsertedId()}'");
+        } else {
+            return new Response("Environment variable MONGODB_URL not found.", 404);
         }
-
-        return new Response($message);
     }
 
     public function config()
     {
-        $mongoDbUrl = $_ENV['MONGODB_URL'];
-
-        return new Response('MONGODB_URL: ' . $mongoDbUrl);
+        if (key_exists('MONGODB_URL', $_ENV)) {
+            return new Response('MONGODB_URL: ' . $_ENV['MONGODB_URL']);
+        } else {
+            return new Response("Environment variable MONGODB_URL not found.", 404);
+        }
     }
 }

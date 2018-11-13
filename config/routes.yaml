@@ -2,6 +2,10 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
 
+insert:
+    path: /
+    controller: App\Controller\DefaultController::insert
+
 config:
     path: /config
     controller: App\Controller\DefaultController::config
