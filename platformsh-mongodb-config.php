@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-mapPlatformShEnvironment();
+mapPlatformShDocumentStoreEnvironment();
 
 /**
  * Map Platform.Sh environment variables to the values Symfony Flex expects.
@@ -10,9 +10,9 @@ mapPlatformShEnvironment();
  * This is wrapped up into a function to avoid executing code in the global
  * namespace.
  */
-function mapPlatformShEnvironment() : void
+function mapPlatformShDocumentStoreEnvironment() : void
 {
-    setEnvVar('MONGODB_URL', mapPlatformShDocumentStore());
+    setEnvVar('MONGODB_URL', mapPlatformShDocumentStoreConfig());
 }
 
 /**
@@ -40,7 +40,7 @@ function setEnvVar(string $name, ?string $value) : void
     }
 }
 
-function mapPlatformShDocumentStore() : string
+function mapPlatformShDocumentStoreConfig() : string
 {
     $dbRelationshipName = 'documentstore';
 
