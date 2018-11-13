@@ -36,7 +36,7 @@ class DefaultController
     public function config()
     {
         if (key_exists('MONGODB_URL', $_ENV) && key_exists('MONGODB_DB', $_ENV)) {
-            return new Response('MONGODB_URL: ' . $_ENV['MONGODB_URL'] . 'MONGODB_DB' . $_ENV['MONGODB_DB']);
+            return new Response('MONGODB_URL: ' . $_ENV['MONGODB_URL'] . PHP_EOL . 'MONGODB_DB: ' . $_ENV['MONGODB_DB']);
         } else {
             return new Response("Environment variable MONGODB_URL and/or MONGODB_DBnot found.", 404);
         }
