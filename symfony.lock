@@ -1,4 +1,7 @@
 {
+    "mongodb/mongodb": {
+        "version": "1.4.2"
+    },
     "platformsh/symfonyflex-bridge": {
         "version": "1.0.0"
     },

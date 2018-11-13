@@ -32,6 +32,8 @@ hooks:
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
     database: "mysqldb:mysql"
+    documentstore: "mydocumentstore:mongodb"
+
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
@@ -51,3 +53,6 @@ web:
             # The front-controller script to send non-static requests to.
             passthru: "/index.php"
 
+runtime:
+    extensions:
+        - mongodb
